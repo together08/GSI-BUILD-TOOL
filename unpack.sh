@@ -21,7 +21,7 @@ outdir="$LOCALDIR/temp"
 toolsdir="$LOCALDIR/tools"
 imgextractor="$toolsdir/imgextractor/imgextractor.py"
 sudo rm -rf "$LOCALDIR/output"
-sudo rm -rf "$LOCALDIR/temp"
+# sudo rm -rf "$LOCALDIR/temp"
 mkdir -p "$outdir/erfangsi"
 mkdir -p "$outdir/vendor"
  
@@ -35,3 +35,5 @@ python3 $imgextractor "$outdir"/erfangsi.img "$outdir/erfangsi"
 # Delete erfangsi/vendor.img
 rm "$outdir"/vendor.img
 rm "$outdir"/erfangsi.img
+rm "$outdir"/erfangsi.raw.img
+

@@ -24,40 +24,48 @@ romdir="$LOCALDIR/roms"
 precommondir="$LOCALDIR/prebuilt/common"
 day=$(date "+%Y%m%d")
 
+rm -rf "$LOCALDIR/temp"
 mkdir -p "$tmpdir"
 
 # Delete erfan's output dir
-rm -rf ./erfangsi/output
+rm -rf "$LOCALDIR"/erfangsi/output
  
 echo "Making ErfanGSI..."
-bash ./erfangsi/url2GSI.sh "$rompath" Generic -ab
+# Only make AB GSI
+sudo sed -i '7c AB=true' "$LOCALDIR"/erfangsi/url2GSI.sh
+sudo sed -i '8c Aonly=false' "$LOCALDIR"/erfangsi/url2GSI.sh
+bash "$LOCALDIR"/erfangsi/url2GSI.sh "$romzip" Generic
 echo ""
 echo ""
 echo "ErfanGSI making finished."
 echo "Copy ErfanGSI's GSI."
-erfan_product="$(ls "./erfan-tools/output/" | grep -i "ErfanGSI" | grep "img" | grep "AB")"
-cp ./erfan-tools/output/$erfan_product "$tmpdir"
-cd "$tmpdir"
-mv $erfan_product erfangsi.img
-cd "$LOCALDIR"
+erfan_product="$(ls "./erfangsi/output/" | grep -i "ErfanGSI" | grep "img" | grep "AB")"
+echo "$erfan_product"
+cp -fpr "$LOCALDIR"/erfangsi/output/"$erfan_product" "$tmpdir"
+# ls "$tmpdir"
+mv "$tmpdir"/$erfan_product "$tmpdir"/erfangsi.img
+# ls "$tmpdir"
 systemdir="$tmpdir/erfangsi/system"
+vendordir="$tmpdir/vendor/vendor"
 
 echo "Unpacking the rom..."
 sudo bash "$LOCALDIR"/unpack.sh "$romzip"
+mv "$tmpdir/erfangsi/erfangsi" "$tmpdir/erfangsi/system"
 echo "Unpacking finished."
 echo ""
 echo ""
 
 # Detect Source API 
-if grep -q ro.build.version.release_or_codename $systemdir/build.prop; then
-    sourcever=`grep ro.build.version.release_or_codename $systemdir/build.prop | cut -d "=" -f 2`
+if grep -q ro.build.version.release_or_codename "$systemdir/system"/build.prop; then
+    sourcever=`grep ro.build.version.release_or_codename "$systemdir/system"/build.prop | cut -d "=" -f 2`
 else
-    sourcever=`grep ro.build.version.release $systemdir/build.prop | cut -d "=" -f 2`
+    sourcever=`grep ro.build.version.release "$systemdir/system"/build.prop | cut -d "=" -f 2`
 fi
 if [ $(echo $sourcever | cut -d "." -f 2) == 0 ]; then
     sourcever=$(echo $sourcever | cut -d "." -f 1)
 fi
 
+echo "This rom is Android $sourcever"
 romworkingdir="$romdir/$sourcever/$romname"
 
 # Detect Source ROM Support
@@ -74,7 +82,12 @@ bash "$romworkingdir"/debloat.sh "$systemdir/system"
 echo "Patching Started..."
 bash "$precommondir"/cleanup_erfanthings.sh "$systemdir/system"
 bash "$romworkingdir"/make.sh "$systemdir/system"
+day=$(date "+%Y%m%d")
+packdir="$outdir/$romname-JvlongGSI-AB-SAR-$day"
+mkdir -p "$packdir"
+cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
+bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 
 # Packing
 echo "Packing Started..."
-bash "$LOCALDIR"/pack.sh 
+bash "$LOCALDIR"/pack.sh "$romname"
