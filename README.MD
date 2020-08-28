@@ -7,7 +7,7 @@
 ### First, clone this repo:
 
 ```bash
-git clone https://github.com/together08/JvlongGSIs.git --depth=1
+git clone https://github.com/together08/GSI-BUILD-TOOL.git --depth=1
 cd GSI-BUILD-TOOL
 ```
 
