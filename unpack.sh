@@ -22,18 +22,18 @@ toolsdir="$LOCALDIR/tools"
 imgextractor="$toolsdir/imgextractor/imgextractor.py"
 sudo rm -rf "$LOCALDIR/output"
 # sudo rm -rf "$LOCALDIR/temp"
-mkdir -p "$outdir/erfangsi"
+mkdir -p "$outdir/system"
 mkdir -p "$outdir/vendor"
  
 # Unpack the romzip with zip2img.sh
 bash "$LOCALDIR"/zip2img.sh "$romzip" "$outdir" vendor
  
-# Extract the erfangsi/vendor.img with imgextractor
+# Extract the system/vendor.img with imgextractor
 python3 $imgextractor "$outdir"/vendor.img "$outdir/vendor"
-python3 $imgextractor "$outdir"/erfangsi.img "$outdir/erfangsi"
+python3 $imgextractor "$outdir"/system.img "$outdir/system"
 
-# Delete erfangsi/vendor.img
+# Delete system/vendor.img
 rm "$outdir"/vendor.img
-rm "$outdir"/erfangsi.img
-rm "$outdir"/erfangsi.raw.img
+rm "$outdir"/system.img
+rm "$outdir"/system.raw.img
 

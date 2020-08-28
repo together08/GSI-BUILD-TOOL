@@ -43,14 +43,13 @@ erfan_product="$(ls "./erfangsi/output/" | grep -i "ErfanGSI" | grep "img" | gre
 echo "$erfan_product"
 cp -fpr "$LOCALDIR"/erfangsi/output/"$erfan_product" "$tmpdir"
 # ls "$tmpdir"
-mv "$tmpdir"/$erfan_product "$tmpdir"/erfangsi.img
+mv "$tmpdir"/$erfan_product "$tmpdir"/system.img
 # ls "$tmpdir"
-systemdir="$tmpdir/erfangsi/system"
+systemdir="$tmpdir/system/system"
 vendordir="$tmpdir/vendor/vendor"
 
 echo "Unpacking the rom..."
 sudo bash "$LOCALDIR"/unpack.sh "$romzip"
-mv "$tmpdir/erfangsi/erfangsi" "$tmpdir/erfangsi/system"
 echo "Unpacking finished."
 echo ""
 echo ""
