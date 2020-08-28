@@ -25,3 +25,8 @@ bash setup.sh
 # For local ROM, use this command:
 ./make.sh <Path to firmware> <ROM NAME>
 ```
+
+## Supported ROMs:
+
+- Generic: Just an normal option, without any changes.
+- ZUI: debloat.sh made by PdyLZY@Coolapk, remove the SetupWizard because it doesn't work well on 16:9 devices.
