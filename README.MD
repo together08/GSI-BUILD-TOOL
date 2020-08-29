@@ -30,3 +30,4 @@ bash setup.sh
 
 - Generic: Just an normal option, without any changes.
 - ZUI: debloat.sh made by PdyLZY@Coolapk, remove the SetupWizard because it doesn't work well on 16:9 devices.
+- Flyme: Fork from erfan'Flyme, debloat.sh made by PdyLZY@Coolapk.
