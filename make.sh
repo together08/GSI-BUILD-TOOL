@@ -22,7 +22,8 @@ outdir="$LOCALDIR/output"
 toolsdir="$LOCALDIR/tools"
 scriptsdir="$LOCALDIR/scripts"
 romdir="$LOCALDIR/roms"
-precommondir="$LOCALDIR/prebuilt/common"
+prebuiltdir="$LOCALDIR/prebuilt/"
+precommondir="$prebuiltdir/common"
 day=$(date "+%Y%m%d")
 
 rm -rf "$LOCALDIR/temp"
@@ -88,10 +89,11 @@ mkdir -p "$packdir"
 cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 bash "$romworkingdir"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
+cp -fpr "$prebuiltdir"/Boot-Patch.zip "$packdir"
 
 # Zip the patch
-echo "Compressing patch dir..."
-sudo zip -r "$packdir"/vendor-patch.zip "$packdir/Patch1"/*
+echo "Compressing vendor patch dir..."
+sudo zip -r "$packdir"/Vendor-Patch.zip "$packdir/Patch1"/*
 rm -rf "$patchpath"
 
 # Output info 
