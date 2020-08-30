@@ -87,6 +87,7 @@ packdir="$outdir/$romname-JvlongGSI-AB-SAR-$day"
 mkdir -p "$packdir"
 cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
+bash "$romworkingdir"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 
 # Zip the patch
 echo "Compressing patch dir..."
