@@ -20,6 +20,7 @@ romname="$2"
 tmpdir="$LOCALDIR/temp"
 outdir="$LOCALDIR/output"
 toolsdir="$LOCALDIR/tools"
+scriptsdir="$LOCALDIR/scripts"
 romdir="$LOCALDIR/roms"
 precommondir="$LOCALDIR/prebuilt/common"
 day=$(date "+%Y%m%d")
@@ -86,6 +87,21 @@ packdir="$outdir/$romname-JvlongGSI-AB-SAR-$day"
 mkdir -p "$packdir"
 cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
+
+# Output info 
+bash $scriptsdir/getinfo.sh "$systemdir/system"
+
+# Version code to "Made.with.GSI.BUILD.TOOL.JvlongGSI"
+if [[ $(grep "ro.build.display.id" $systemdir/system/build.prop) ]]; then
+    displayid="ro.build.display.id"
+elif [[ $(grep "ro.system.build.id" $systemdir/system/build.prop) ]]; then
+    displayid="ro.system.build.id"
+elif [[ $(grep "ro.build.id" $systemdir/system/build.prop) ]]; then
+    displayid="ro.build.id"
+fi
+displayid2=$(echo "$displayid" | sed 's/\./\\./g')
+bdisplay=$(grep "$displayid" $systemdir/system/build.prop | sed 's/\./\\./g; s:/:\\/:g; s/\,/\\,/g; s/\ /\\ /g')
+sed -i "s/$bdisplay/$displayid2=Made\.with\.GSI\.BUILD\.TOOL\.JvlongGSI/" $systemdir/system/build.prop
 
 # Packing
 echo "Packing Started..."
