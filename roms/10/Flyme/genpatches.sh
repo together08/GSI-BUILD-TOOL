@@ -13,13 +13,13 @@ cd "$patchpath"
 cd vendor
 
 cd app
-cp -fpr "$vendorpath/app/com.qualcomm.qti.gpudrivers.*.api29" .
+cp -fpr "$vendorpath/app"/com.qualcomm.qti.gpudrivers.*.api29 .
 cd ..
 
 cd bin
 cp -fpr "$vendorpath/bin"/diag_ipclog .
 cd hw
-cp -fpr "$vendorpath/bin/hw/vendor.meizu.hardware.*" .
+cp -fpr "$vendorpath/bin/hw"/vendor.meizu.hardware.* .
 cd ../..
 
 cd etc
