@@ -57,6 +57,8 @@ echo 'delete_recursive(“/vendor/overlay”);' >> $updaterscript
 echo 'ui_print("Some recoveries does not supprted auto-mounted, if mount failed, please mount manully and flash this patch again.");' >> $updaterscript
 echo 'run_program("/sbin/busybox", "mount", "/vendor");' >> $updaterscript
 echo 'package_extract_dir("vendor", "/vendor");' >> $updaterscript
+echo 'set_metadata("/vendor/bin/hw/hostapd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hal_wifi_hostapd_default_exec:s0");' >> $updaterscript
+echo 'set_metadata("/vendor/bin/hw/wpa_supplicant", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hal_wifi_supplicant_default_exec:s0");' >> $updaterscript
 echo 'set_metadata_recursive("/vendor/etc", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:vendor_configs_file:s0");' >> $updaterscript
 echo 'set_metadata_recursive("/vendor/overlay", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:vendor_overlay_file:s0");' >> $updaterscript
 echo 'set_metadata_recursive("/vendor/lib", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:same_process_hal_file:s0");' >> $updaterscript
