@@ -93,8 +93,12 @@ cp -fpr "$prebuiltdir"/Boot-Patch.zip "$packdir"
 
 # Zip the patch
 echo "Compressing vendor patch dir..."
-sudo zip -r "$packdir"/Vendor-Patch.zip "$packdir/Patch1"/*
-rm -rf "$patchpath"
+cd "$packdir/Patch1"
+zip Vendor-Patch.zip *
+cp -r Vendor-Patch.zip ..
+cd ..
+rm -rf "Patch1"
+cd "$LOCALDIR"
 
 # Output info 
 bash $scriptsdir/getinfo.sh "$systemdir/system"
