@@ -28,7 +28,7 @@ cd ..
 
 cd bin/hw
 cp -fpr "$vendorpath/bin/hw/hostapd" "$vendorpath/bin/hw"/wpa_supplicant .
-cd ..
+cd ../..
 
 cd etc
 cp -fpr "$vendorpath/etc/hostapd" "$vendorpath/etc/init" "$vendorpath/etc/permissions" "$vendorpath/etc"/bluetooth_qti_audio_policy_configuration.xml "$vendorpath/etc"/bluetooth_qti_hearing_aid_audio_policy_configuration.xml "$vendorpath/etc"/media_profiles.xml "$vendorpath/etc"/media_profiles_V1_0.xml "$vendorpath/etc"/media_profiles_vendor.xml .
@@ -63,3 +63,8 @@ echo 'set_metadata_recursive("/vendor/lib", "uid", 0, "gid", 0, "dmode", 0755, "
 echo 'set_metadata_recursive("/vendor/lib64", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:same_process_hal_file:s0");' >> $updaterscript
 echo 'ui_print("Installation complete!");' >> $updaterscript
 echo ''
+
+# Zip the patch
+echo "Compressing patch dir..."
+zip -r vendor-patch.zip "$patchpath"/*
+rm -rf "$patchpath"
