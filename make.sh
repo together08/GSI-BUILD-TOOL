@@ -88,6 +88,11 @@ mkdir -p "$packdir"
 cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 
+# Zip the patch
+echo "Compressing patch dir..."
+zip -r "$packdir"/vendor-patch.zip "$packdir/Patch1/*"
+rm -rf "$patchpath"
+
 # Output info 
 bash $scriptsdir/getinfo.sh "$systemdir/system"
 

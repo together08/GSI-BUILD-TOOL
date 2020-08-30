@@ -63,8 +63,3 @@ echo 'set_metadata_recursive("/vendor/lib", "uid", 0, "gid", 0, "dmode", 0755, "
 echo 'set_metadata_recursive("/vendor/lib64", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:same_process_hal_file:s0");' >> $updaterscript
 echo 'ui_print("Installation complete!");' >> $updaterscript
 echo ''
-
-# Zip the patch
-echo "Compressing patch dir..."
-zip -r vendor-patch.zip "$patchpath"/*
-rm -rf "$patchpath"
