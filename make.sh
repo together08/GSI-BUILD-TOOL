@@ -66,7 +66,6 @@ fi
 
 echo "This rom is Android $sourcever"
 romworkingdir="$romdir/$sourcever/$romname"
-presourcedir="$LOCALDIR/prebuilt/$sourcever"
 
 # Detect Source ROM Support
 if [ ! -d "$romworkingdir" ]; then
@@ -82,11 +81,10 @@ bash "$romworkingdir"/debloat.sh "$systemdir/system"
 echo "Patching Started..."
 bash "$precommondir"/cleanup_erfanthings.sh "$systemdir/system"
 bash "$romworkingdir"/make.sh "$systemdir/system"
-bash "$presourcedir"/make.sh "$systemdir/system" "$romworkingdir"
 day=$(date "+%Y%m%d")
 packdir="$outdir/$romname-JvlongGSI-AB-SAR-$day"
 mkdir -p "$packdir"
-cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir" 
+cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 
 # Packing
