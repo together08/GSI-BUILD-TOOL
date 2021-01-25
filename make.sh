@@ -89,6 +89,7 @@ mkdir -p "$packdir"
 cp -fpr "$LOCALDIR/prebuilt/Patch1" "$packdir"
 bash "$LOCALDIR"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
 bash "$romworkingdir"/genpatches.sh "$romname" "$vendordir" "$packdir/Patch1"
+bash "$precommondir"/make_more_common.sh "$systemdir/system"
 cp -fpr "$prebuiltdir"/Boot-Patch.zip "$packdir"
 
 # Zip the patch
