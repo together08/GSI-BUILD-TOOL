@@ -1,4 +1,3 @@
-
 #/bin/bash
 
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -21,18 +20,21 @@ mkdir -p etc
 mkdir -p lib
 mkdir -p lib64
 mkdir -p overlay
+mkdir -p media
 
 cd app
-cp -fpr "$vendorpath/app/CneApp" "$vendorpath/app/IWlanService" "$vendorpath/app/QDMA" "$vendorpath/app/QDMA-UI" "$vendorpath/app/QwesAndroidService" "$vendorpath/app/TimeService" "$vendorpath/app/TrustZoneAccessService" .
+cp -fpr "$vendorpath/app/*" .
 cd ..
 
 cd bin/hw
-cp -fpr "$vendorpath/bin/hw/hostapd" "$vendorpath/bin/hw"/wpa_supplicant .
+cp -fpr "$vendorpath/bin/hw/hostapd" "$vendorpath/bin/hw/wpa_supplicant" .
 cd ../..
 
 cd etc
-cp -fpr "$vendorpath/etc/hostapd" "$vendorpath/etc/init" "$vendorpath/etc/permissions" "$vendorpath/etc"/bluetooth_qti_audio_policy_configuration.xml "$vendorpath/etc"/bluetooth_qti_hearing_aid_audio_policy_configuration.xml "$vendorpath/etc"/media_profiles.xml "$vendorpath/etc"/media_profiles_V1_0.xml "$vendorpath/etc"/media_profiles_vendor.xml .
-cd ..
+cp -fpr "$vendorpath/etc/hostapd" "$vendorpath/etc/init" "$vendorpath/etc"/bluetooth_qti_audio_policy_configuration.xml "$vendorpath/etc"/bluetooth_qti_hearing_aid_audio_policy_configuration.xml "$vendorpath/etc/media_profiles*.xml" .
+cd permissions
+cp -fpr "$vendorpath/etc/permissions/qti_permissions.xml" .
+cd ../..
 
 cd lib
 cp -fpr "$vendorpath/lib/soundfx" "$vendorpath"/lib/libcert_parse.wpa_s.so "$vendorpath"/lib/liblowi_wifihal.so "$vendorpath"/lib/vendor.qti.hardware.wifidisplaysession@1.0.so "$vendorpath"/lib/vendor.qti.hardware.wifidisplaysessionl@1.0-halimpl.so .
@@ -43,7 +45,12 @@ cp -fpr "$vendorpath/lib64/soundfx" "$vendorpath/lib64"/libcert_parse.wpa_s.so "
 cd ..
 
 cd overlay
-cp -fpr "$vendorpath/overlay"/CarrierConfigResCommon.apk "$vendorpath/overlay"/CellBroadcastReceiverResCommon.apk "$vendorpath/overlay"/FrameworksResCommon.apk "$vendorpath/overlay"/FrameworksResTarget.apk "$vendorpath/overlay"/SystemUIResCommon.apk "$vendorpath/overlay"/TelecommResCommon.apk "$vendorpath/overlay"/TelephonyResCommon.apk .
+cp -fpr "$vendorpath/overlay/*" .
+cd ..
+
+cd media
+cp -fpr "$vendorpath/media/*" .
+cd ..
 
 cd "$LOCALDIR"
 
@@ -53,8 +60,10 @@ echo "Generating updater-script..."
 echo "ui_print("$romname Vendor Patch");" >> $updaterscript
 echo "ui_print("Made with GSI-BUILD-TOOL");" >> $updaterscript
 echo "ui_print("Generated on $day");" >> $updaterscript
-echo 'delete_recursive(“/vendor/overlay”);' >> $updaterscript
-echo 'ui_print("Some recoveries does not supprted auto-mounted, if mount failed, please mount manully and flash this patch again.");' >> $updaterscript
+echo 'delete("/vendor/etc/permissions/qti_permissions.xml")' >> $updaterscript
+echo 'delete_recursive("/vendor/overlay");' >> $updaterscript
+echo 'delete_recursive("/vendor/media");' >> $updaterscript
+echo 'ui_print("Some recoveries do not supprted auto-mounted, if mount failed, please mount manully and flash this patch again.");' >> $updaterscript
 echo 'run_program("/sbin/busybox", "mount", "/vendor");' >> $updaterscript
 echo 'package_extract_dir("vendor", "/vendor");' >> $updaterscript
 echo 'set_metadata("/vendor/bin/hw/hostapd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hal_wifi_hostapd_default_exec:s0");' >> $updaterscript
