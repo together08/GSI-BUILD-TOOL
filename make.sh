@@ -32,11 +32,11 @@ mkdir -p "$tmpdir"
 # Delete erfan's output dir
 rm -rf "$LOCALDIR"/erfangsi/output
  
-echo "Making ErfanGSI..."
+echo "Making ErfanGSI... (This may take a few minutes, please be patient.)"
 # Only make AB GSI
 sudo sed -i '7c AB=true' "$LOCALDIR"/erfangsi/url2GSI.sh
 sudo sed -i '8c Aonly=false' "$LOCALDIR"/erfangsi/url2GSI.sh
-bash "$LOCALDIR"/erfangsi/url2GSI.sh "$romzip" Generic
+bash "$LOCALDIR"/erfangsi/url2GSI.sh "$romzip" Generic >/dev/null 2>&1
 echo ""
 echo ""
 echo "ErfanGSI making finished."
